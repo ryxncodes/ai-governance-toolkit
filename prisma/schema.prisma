@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Organization {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  aiTools   AiTool[]
+}
+
+enum ToolStatus {
+  APPROVED
+  RESTRICTED
+  UNDER_REVIEW
+  BLOCKED
+}
+
+enum DataType {
+  PUBLIC
+  INTERNAL
+  CONFIDENTIAL
+  CUSTOMER
+  SOURCE_CODE
+  CREDENTIALS
+  REGULATED
+}
+
+model AiTool {
+  id                String     @id @default(cuid())
+  organizationId    String
+  organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  name              String
+  vendor            String
+  website           String?
+  category          String
+  status            ToolStatus @default(UNDER_REVIEW)
+  description       String?
+  approvedUseCases  String?
+  blockedUseCases   String?
+  allowedDataTypes  DataType[]
+  reviewOwner       String?
+  reviewDate        DateTime?
+  nextReviewDate    DateTime?
+  notes             String?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  @@unique([organizationId, name])
+  @@index([organizationId])
+  @@index([status])
+}

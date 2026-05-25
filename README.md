@@ -33,9 +33,20 @@ npm install
 ### 2. Configure Supabase database
 
 1. Create a [Supabase](https://supabase.com) project.
-2. Copy `.env.example` to `.env` and set connection strings from **Project Settings → Database**:
-   - `DATABASE_URL` — Transaction pooler (port 6543, `?pgbouncer=true`)
-   - `DIRECT_URL` — Session/direct connection (port 5432)
+2. In **Project Settings → Database**, reset/copy the **database password** (not API keys). URL-encode it if it contains special characters.
+3. Copy `.env.example` to `.env`. Use the **pooler host** for both URLs (required on most home/office IPv4 networks):
+
+```env
+# Transaction pooler — app runtime queries
+DATABASE_URL=postgresql://postgres.arualoxtsyynssnnvyeh:YOUR_ENCODED_PASSWORD@aws-1-us-east-2.pooler.supabase.com:6543/postgres?pgbouncer=true
+
+# Session pooler — Prisma migrations (NOT db.xxx.supabase.co on IPv4)
+DIRECT_URL=postgresql://postgres.arualoxtsyynssnnvyeh:YOUR_ENCODED_PASSWORD@aws-1-us-east-2.pooler.supabase.com:5432/postgres
+```
+
+Replace `YOUR_ENCODED_PASSWORD` and confirm the project ref / region match your dashboard (**Connect → ORM → Prisma**).
+
+**IPv4 note:** If Supabase shows “Not IPv4 compatible” on the direct host (`db.*.supabase.co:5432`), do **not** use that for `DIRECT_URL`. Use the **Session pooler** URL (port **5432** on `*.pooler.supabase.com`) instead. Direct connections only work on IPv6 unless you buy the IPv4 add-on.
 
 ### 3. Migrate and seed
 

@@ -9,6 +9,13 @@ export const TOOL_STATUS_LABELS: Record<ToolStatus, string> = {
   BLOCKED: "Blocked",
 }
 
+export const TOOL_STATUS_OPTIONS = [
+  "APPROVED",
+  "RESTRICTED",
+  "UNDER_REVIEW",
+  "BLOCKED",
+] as const satisfies readonly ToolStatus[]
+
 export const DATA_TYPE_LABELS: Record<DataType, string> = {
   PUBLIC: "Public data",
   INTERNAL: "Internal business data",
@@ -18,6 +25,16 @@ export const DATA_TYPE_LABELS: Record<DataType, string> = {
   CREDENTIALS: "Credentials/secrets",
   REGULATED: "Student/patient/regulated data",
 }
+
+export const DATA_TYPE_OPTIONS = [
+  "PUBLIC",
+  "INTERNAL",
+  "CONFIDENTIAL",
+  "CUSTOMER",
+  "SOURCE_CODE",
+  "CREDENTIALS",
+  "REGULATED",
+] as const satisfies readonly DataType[]
 
 export const DATA_TYPE_SHORT_LABELS: Record<DataType, string> = {
   PUBLIC: "Public",

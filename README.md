@@ -4,11 +4,12 @@ A lightweight AI governance and vendor-risk platform for small IT teams evaluati
 
 **Problem:** Employees adopt AI tools faster than small organizations can review them. That creates risk around confidential data, source code, customer information, and unclear vendor policies.
 
-**Step 1 scope:** Read-only AI tool registry with demo data, dashboard counts by status, and navigation shell for future modules. No auth, CRUD forms, LLM features, or exports yet.
+**Phase 1 scope:** Usable AI tool registry with demo data, dashboard counts by status, add/edit/detail workflows, and navigation shell for future modules. No auth, LLM features, risk scoring, or exports yet.
 
-## Features (Step 1)
+## Features (Phase 1)
 
 - AI tool registry table (`/tools`)
+- Add, view, and edit AI tools
 - Status badges: Approved, Restricted, Under Review, Blocked
 - Allowed data type classification
 - Dashboard with tool counts by status
@@ -70,7 +71,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) for the dashboard and [http://localhost:3000/tools](http://localhost:3000/tools) for the registry.
 
-No OpenAI or Anthropic API keys are required for Step 1.
+No OpenAI or Anthropic API keys are required for Phase 1.
 
 ## Scripts
 
@@ -86,8 +87,8 @@ No OpenAI or Anthropic API keys are required for Step 1.
 ## Project structure
 
 ```text
-app/              # Next.js routes (dashboard, tools)
-components/       # UI and layout components
+app/              # Next.js routes (dashboard, tools registry CRUD)
+components/       # UI, layout, and tools components
 lib/              # Prisma client, constants, helpers
 prisma/           # Schema, migrations, seed
 sample-data/      # demo-tools.json
@@ -104,4 +105,8 @@ This tool does **not** provide legal advice. Vendor and policy data must be revi
 
 ## License
 
-Private / portfolio use unless otherwise specified.
+This repository is source-available for portfolio and evaluation purposes only.
+
+You may view, clone, and run the code locally for personal review. You may not redistribute, sublicense, resell, publish modified versions, or use this code in a commercial product without written permission.
+
+Copyright © 2026 Ryan Kane. All rights reserved.

@@ -14,7 +14,7 @@
 ## Incremental build plan
 
 - [x] **Step 1** — Project scaffold, database, seed data, read-only `/tools` table, dashboard stub
-- [ ] **Step 2** — `/tools/new`, `/tools/[id]` detail, edit form (Server Actions)
+- [x] **Step 2** — `/tools/new`, `/tools/[id]` detail, edit form (Server Actions)
 - [ ] **Step 3** — Vendor review form on tool detail
 - [ ] **Step 4** — Risk scoring rubric and summary on tool page
 - [ ] **Step 5** — Employee-facing approved tools page

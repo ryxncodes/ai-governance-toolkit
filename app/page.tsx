@@ -70,8 +70,8 @@ export default async function DashboardPage() {
         <CardHeader>
           <CardTitle>Getting started</CardTitle>
           <CardDescription>
-            Step 1 delivers a read-only registry with demo data. CRUD and risk
-            scoring come in later steps.
+            Phase 1 delivers a usable AI tool registry with demo data, create
+            and edit workflows, and room for risk scoring in the next phase.
           </CardDescription>
         </CardHeader>
         <CardContent>

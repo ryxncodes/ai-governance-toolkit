@@ -1,6 +1,8 @@
 import { ToolsTable } from "@/components/tools/tools-table"
+import { buttonVariants } from "@/components/ui/button"
 import { prisma } from "@/lib/db/prisma"
 import { DEMO_ORG_ID } from "@/lib/organizations"
+import Link from "next/link"
 
 export const dynamic = "force-dynamic"
 
@@ -20,6 +22,9 @@ export default async function ToolsPage() {
             and review dates for your organization.
           </p>
         </div>
+        <Link href="/tools/new" className={buttonVariants()}>
+          Add tool
+        </Link>
       </div>
       <ToolsTable tools={tools} />
     </div>

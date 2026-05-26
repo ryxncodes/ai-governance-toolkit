@@ -1,8 +1,9 @@
 import type { AiTool } from "@prisma/client"
+import Link from "next/link"
 
 import { DataTypesBadges } from "@/components/tools/data-types-badges"
 import { StatusBadge } from "@/components/tools/status-badge"
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import {
   Table,
   TableBody,
@@ -16,6 +17,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { Badge } from "@/components/ui/badge"
 import { formatDate } from "@/lib/format"
 
 export function ToolsTable({ tools }: { tools: AiTool[] }) {
@@ -56,7 +58,9 @@ export function ToolsTable({ tools }: { tools: AiTool[] }) {
               <TableCell>
                 <StatusBadge status={tool.status} />
               </TableCell>
-              <TableCell className="text-muted-foreground">—</TableCell>
+              <TableCell>
+                <Badge variant="secondary">Not reviewed</Badge>
+              </TableCell>
               <TableCell>
                 <DataTypesBadges dataTypes={tool.allowedDataTypes} />
               </TableCell>
@@ -67,22 +71,34 @@ export function ToolsTable({ tools }: { tools: AiTool[] }) {
                   <Tooltip>
                     <TooltipTrigger
                       render={
-                        <Button variant="ghost" size="sm" disabled>
+                        <Link
+                          href={`/tools/${tool.id}`}
+                          className={buttonVariants({
+                            variant: "ghost",
+                            size: "sm",
+                          })}
+                        >
                           View
-                        </Button>
+                        </Link>
                       }
                     />
-                    <TooltipContent>Available in Step 2</TooltipContent>
+                    <TooltipContent>View tool details</TooltipContent>
                   </Tooltip>
                   <Tooltip>
                     <TooltipTrigger
                       render={
-                        <Button variant="ghost" size="sm" disabled>
+                        <Link
+                          href={`/tools/${tool.id}/edit`}
+                          className={buttonVariants({
+                            variant: "ghost",
+                            size: "sm",
+                          })}
+                        >
                           Edit
-                        </Button>
+                        </Link>
                       }
                     />
-                    <TooltipContent>Available in Step 2</TooltipContent>
+                    <TooltipContent>Edit registry entry</TooltipContent>
                   </Tooltip>
                 </div>
               </TableCell>

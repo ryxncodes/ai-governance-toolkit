@@ -96,7 +96,7 @@ export function AppSidebar() {
         })}
       </nav>
       <p className="border-t border-border px-4 py-3 text-xs text-muted-foreground">
-        Step 1: read-only registry
+        Phase 1: registry CRUD
       </p>
     </aside>
   )

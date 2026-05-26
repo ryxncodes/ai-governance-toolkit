@@ -1,14 +1,17 @@
 import { ToolsTable } from "@/components/tools/tools-table"
 import { buttonVariants } from "@/components/ui/button"
+import { getRequiredSession } from "@/lib/auth/session"
 import { prisma } from "@/lib/db/prisma"
-import { DEMO_ORG_ID } from "@/lib/organizations"
 import Link from "next/link"
 
 export const dynamic = "force-dynamic"
 
 export default async function ToolsPage() {
+  const session = await getRequiredSession()
+
   const tools = await prisma.aiTool.findMany({
-    where: { organizationId: DEMO_ORG_ID },
+    where: { organizationId: session.organizationId },
+    include: { vendorReview: true },
     orderBy: [{ status: "asc" }, { name: "asc" }],
   })
 

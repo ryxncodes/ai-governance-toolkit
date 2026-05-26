@@ -2,8 +2,8 @@ import { notFound } from "next/navigation"
 
 import { updateToolAction } from "@/app/tools/actions"
 import { ToolForm } from "@/components/tools/tool-form"
+import { getRequiredSession } from "@/lib/auth/session"
 import { prisma } from "@/lib/db/prisma"
-import { DEMO_ORG_ID } from "@/lib/organizations"
 import {
   dateInputValue,
   type ToolFormState,
@@ -18,8 +18,9 @@ export default async function EditToolPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
+  const session = await getRequiredSession()
   const tool = await prisma.aiTool.findFirst({
-    where: { id, organizationId: DEMO_ORG_ID },
+    where: { id, organizationId: session.organizationId },
   })
 
   if (!tool) {

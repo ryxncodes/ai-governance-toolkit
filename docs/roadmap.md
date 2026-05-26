@@ -15,14 +15,14 @@
 
 - [x] **Step 1** — Project scaffold, database, seed data, read-only `/tools` table, dashboard stub
 - [x] **Step 2** — `/tools/new`, `/tools/[id]` detail, edit form (Server Actions)
-- [ ] **Step 3** — Vendor review form on tool detail
-- [ ] **Step 4** — Risk scoring rubric and summary on tool page
-- [ ] **Step 5** — Employee-facing approved tools page
-- [ ] **Step 6** — Supabase Auth + organization/workspace
-- [ ] **Step 7** — AI-assisted vendor document extraction (LLM + evidence)
-- [ ] **Step 8** — Policy gap auditor
-- [ ] **Step 9** — Markdown report exports
-- [ ] **Step 10** — RAG/chatbot safety tester (v2)
+- [x] **Step 3** — Vendor review form on tool detail
+- [x] **Step 4** — Risk scoring rubric and summary on tool page
+- [x] **Step 5** — Employee-facing approved tools page
+- [x] **Step 6** — Built-in demo login, workspace creation, organization model, and role permissions
+- [x] **Step 7** — AI-assisted vendor document extraction (structured fields + evidence)
+- [x] **Step 8** — Policy gap auditor
+- [x] **Step 9** — Markdown report exports
+- [x] **Step 10** — RAG/chatbot safety tester (v2 manual response checks)
 
 ## Phase overview (from product spec)
 
@@ -48,7 +48,10 @@ Markdown exports first; PDF later.
 
 ### Phase 6 — Auth and multi-tenant workspaces
 
-Users, organizations, roles (Owner, Admin, Reviewer, Viewer).
+Users, organizations, workspaces, and roles (Owner, Admin, Reviewer, Viewer).
+The prototype includes a self-contained demo login and workspace creation flow;
+production identity can be swapped in later with Supabase Auth, Auth.js, or
+Clerk.
 
 ### Phase 7 — AI App Safety Tester (v2)
 

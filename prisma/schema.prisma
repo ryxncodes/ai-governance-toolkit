@@ -9,10 +9,41 @@ datasource db {
 }
 
 model Organization {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
-  aiTools   AiTool[]
+  id          String       @id @default(cuid())
+  name        String
+  createdAt   DateTime     @default(now())
+  aiTools     AiTool[]
+  memberships Membership[]
+  policies    Policy[]
+}
+
+model User {
+  id          String       @id @default(cuid())
+  email       String       @unique
+  name        String?
+  createdAt   DateTime     @default(now())
+  memberships Membership[]
+}
+
+model Membership {
+  id             String           @id @default(cuid())
+  userId         String
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizationId String
+  organization   Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  role           MembershipRole   @default(VIEWER)
+  createdAt      DateTime         @default(now())
+
+  @@unique([userId, organizationId])
+  @@index([organizationId])
+  @@index([userId])
+}
+
+enum MembershipRole {
+  OWNER
+  ADMIN
+  REVIEWER
+  VIEWER
 }
 
 enum ToolStatus {
@@ -32,6 +63,31 @@ enum DataType {
   REGULATED
 }
 
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum ControlStatus {
+  YES
+  NO
+  UNKNOWN
+}
+
+enum BusinessCriticality {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum UserBaseSize {
+  SMALL
+  MEDIUM
+  LARGE
+}
+
 model AiTool {
   id                String     @id @default(cuid())
   organizationId    String
@@ -49,10 +105,70 @@ model AiTool {
   reviewDate        DateTime?
   nextReviewDate    DateTime?
   notes             String?
+  vendorReview      VendorReview?
+  documentExtractions VendorDocumentExtraction[]
   createdAt         DateTime   @default(now())
   updatedAt         DateTime   @updatedAt
 
   @@unique([organizationId, name])
   @@index([organizationId])
   @@index([status])
+}
+
+model VendorDocumentExtraction {
+  id              String   @id @default(cuid())
+  aiToolId        String
+  aiTool          AiTool   @relation(fields: [aiToolId], references: [id], onDelete: Cascade)
+  sourceName      String
+  sourceText      String
+  findingsJson    Json
+  riskSummary     String
+  employeeGuidance String
+  createdAt       DateTime @default(now())
+
+  @@index([aiToolId])
+  @@index([createdAt])
+}
+
+model Policy {
+  id             String   @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  title          String
+  content        String
+  score          Int      @default(0)
+  auditJson      Json
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([organizationId])
+  @@index([score])
+}
+
+model VendorReview {
+  id                    String              @id @default(cuid())
+  aiToolId              String              @unique
+  aiTool                AiTool              @relation(fields: [aiToolId], references: [id], onDelete: Cascade)
+  riskScore             Int                 @default(0)
+  riskLevel             RiskLevel           @default(LOW)
+  modelTraining         ControlStatus       @default(UNKNOWN)
+  dataRetention         ControlStatus       @default(UNKNOWN)
+  ssoSupport            ControlStatus       @default(UNKNOWN)
+  auditLogs             ControlStatus       @default(UNKNOWN)
+  adminControls         ControlStatus       @default(UNKNOWN)
+  complianceClaims      ControlStatus       @default(UNKNOWN)
+  deletionSupport       ControlStatus       @default(UNKNOWN)
+  termsClarity          ControlStatus       @default(UNKNOWN)
+  sensitiveDataHandling ControlStatus       @default(UNKNOWN)
+  businessCriticality   BusinessCriticality @default(LOW)
+  userBaseSize          UserBaseSize        @default(SMALL)
+  topRiskFactors        String[]
+  missingInformation    String[]
+  recommendation        String?
+  reviewedAt            DateTime?
+  nextReviewAt          DateTime?
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+
+  @@index([riskLevel])
 }

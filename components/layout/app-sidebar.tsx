@@ -5,8 +5,11 @@ import { usePathname } from "next/navigation"
 import {
   FileText,
   LayoutDashboard,
+  LogIn,
   Settings,
   Shield,
+  Sparkles,
+  TestTube,
   Wrench,
 } from "lucide-react"
 
@@ -26,22 +29,40 @@ const navItems = [
     enabled: true,
   },
   {
+    label: "Approved Tools",
+    href: "/approved-tools",
+    icon: Sparkles,
+    enabled: true,
+  },
+  {
     label: "Policies",
     href: "/policies",
     icon: FileText,
-    enabled: false,
+    enabled: true,
   },
   {
     label: "Reports",
     href: "/reports",
     icon: Shield,
-    enabled: false,
+    enabled: true,
+  },
+  {
+    label: "Safety Tester",
+    href: "/safety-tester",
+    icon: TestTube,
+    enabled: true,
   },
   {
     label: "Settings",
     href: "/settings",
     icon: Settings,
-    enabled: false,
+    enabled: true,
+  },
+  {
+    label: "Log In",
+    href: "/login",
+    icon: LogIn,
+    enabled: true,
   },
 ]
 
@@ -96,7 +117,7 @@ export function AppSidebar() {
         })}
       </nav>
       <p className="border-t border-border px-4 py-3 text-xs text-muted-foreground">
-        Phase 1: registry CRUD
+        Roadmap-complete prototype
       </p>
     </aside>
   )

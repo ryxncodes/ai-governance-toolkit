@@ -12,7 +12,7 @@ import {
 import { StatusBadge } from "@/components/tools/status-badge"
 import { prisma } from "@/lib/db/prisma"
 import { TOOL_STATUS_LABELS } from "@/lib/constants"
-import { DEMO_ORG_ID } from "@/lib/organizations"
+import { getRequiredSession } from "@/lib/auth/session"
 
 export const dynamic = "force-dynamic"
 
@@ -24,11 +24,14 @@ const statusOrder: ToolStatus[] = [
 ]
 
 export default async function DashboardPage() {
+  const session = await getRequiredSession()
+  const organizationId = session.organizationId
+
   const [tools, statusCounts] = await Promise.all([
-    prisma.aiTool.count({ where: { organizationId: DEMO_ORG_ID } }),
+    prisma.aiTool.count({ where: { organizationId } }),
     prisma.aiTool.groupBy({
       by: ["status"],
-      where: { organizationId: DEMO_ORG_ID },
+      where: { organizationId },
       _count: { status: true },
     }),
   ])

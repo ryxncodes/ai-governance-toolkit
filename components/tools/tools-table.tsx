@@ -1,6 +1,7 @@
-import type { AiTool } from "@prisma/client"
+import type { AiTool, VendorReview } from "@prisma/client"
 import Link from "next/link"
 
+import { RiskBadge } from "@/components/reviews/risk-badge"
 import { DataTypesBadges } from "@/components/tools/data-types-badges"
 import { StatusBadge } from "@/components/tools/status-badge"
 import { buttonVariants } from "@/components/ui/button"
@@ -20,7 +21,9 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { formatDate } from "@/lib/format"
 
-export function ToolsTable({ tools }: { tools: AiTool[] }) {
+type ToolRow = AiTool & { vendorReview: VendorReview | null }
+
+export function ToolsTable({ tools }: { tools: ToolRow[] }) {
   if (tools.length === 0) {
     return (
       <p className="rounded-lg border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
@@ -59,7 +62,16 @@ export function ToolsTable({ tools }: { tools: AiTool[] }) {
                 <StatusBadge status={tool.status} />
               </TableCell>
               <TableCell>
-                <Badge variant="secondary">Not reviewed</Badge>
+                {tool.vendorReview ? (
+                  <div className="flex items-center gap-2">
+                    <RiskBadge level={tool.vendorReview.riskLevel} />
+                    <span className="text-xs text-muted-foreground">
+                      {tool.vendorReview.riskScore}
+                    </span>
+                  </div>
+                ) : (
+                  <Badge variant="secondary">Not reviewed</Badge>
+                )}
               </TableCell>
               <TableCell>
                 <DataTypesBadges dataTypes={tool.allowedDataTypes} />

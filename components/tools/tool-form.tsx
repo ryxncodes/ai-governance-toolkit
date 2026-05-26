@@ -175,6 +175,7 @@ export function ToolForm({
           <select
             className={fieldClassName}
             name="status"
+            aria-label="Status"
             defaultValue={values.status}
             aria-invalid={Boolean(state.errors.status)}
           >
